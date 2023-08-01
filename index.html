@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Configuration Options</title>
+</head>
+
+<body>
+  <div class="form-container">
+    <header>
+      <div class="logo">
+        <img src="images/sysdig-logo.png" alt="Your Logo">
+      </div>
+    </header>
+
+    <br>
+    <h1>Welcome to the Sysdig Installation Page!</h1>
+    <h4>Please review installation instructions <a target="_blank" href="https://github.com/alexwang19/alexwang19.github.io/blob/main/docs/installation_docs.md">here</a> and fill in required fields below to generate install commands.</h4>
+    
+    <div id="regionInput" class="form-section">
+      <label for="regionInput">Deployment Type (Required)</label>
+      <select name="regionID" id="regionSelect" onchange="handleRegionChange()" required>
+        <option disabled selected value> -- select an option -- </option>
+        <option value="us2">Sysdig Test Deployment</option>
+        <option value="us3">VZ Standard Deployment</option>
+      </select>
+      <div id="testInput" class="form-section" style="display: none;">
+        <br><a target="_blank" href="https://us2.app.sysdig.com/secure/#/settings/agentInstallation">Retrieve Sysdig Test Access Key Here</a><br>
+        <br><input type="text" name="testSysdigAccessKeyID" id="testSysdigAccessKey" placeholder="Enter Sysdig Test Access Key" >
+      </div>
+      <div id="prodInput" class="form-section" style="display: none;">
+        <br><a target="_blank" href="https://app.us3.sysdig.com/secure/#/settings/agentInstallation">Retrieve VZ Standard Deployment Sysdig Access Key Here</a><br>
+        <br><input type="text" name="standardSysdigAccessKeyID" id="standardSysdigAccessKey" placeholder="Enter VZ Standard Deployment Sysdig Access Key">
+      </div>
+    </div>
+    
+    <div id="businessUnitInput" class="form-section">
+      <label for="businessUnitInput">Business Unit (Required)</label>
+      <input type="text" name="businessUnitID" id="businessUnit" placeholder="Enter Business Unit/Application Name" required>
+    </div>
+
+<!--     <div id="environmentInput" class="form-section">
+      <label for="environmentInput">Environment (Required)</label>
+      <input type="text" name="environmentID" id="environment" placeholder="ex: dev, qa, preprod, prod, etc." required>
+    </div> -->
+
+    <div id="environmentInput" class="form-section">
+      <label for="environmentInput">Environment (Required)</label>
+      <select name="environmentID" id="environmentSelect" required>
+        <option disabled selected value> -- select an option -- </option>
+        <option value="test">test</option>
+        <option value="dev">dev</option>
+        <option value="qa">qa</option>
+        <option value="stg">stg</option>
+        <option value="preprod">preprod</option>
+        <option value="prod">prod</option>
+      </select>
+    </div>
+    
+    <div id="platformInput" class="form-section">
+      <label for="platformInput">Platform (Required)</label>
+      <input type="text" name="platformID" id="platform" placeholder="ex: eks, gke, etc." required>
+    </div>
+
+    <div id="vastInput" class="form-section">
+      <label for="vastInput">VASTID (Required)</label>
+      <input type="text" name="vastID" id="vast" placeholder="Enter VAST ID" required>
+    </div>
+
+    <div id="vsadInput" class="form-section">
+      <label for="vsadInput">VSADID (Required)</label>
+      <input type="text" name="vsadID" id="vsad" placeholder="Enter VSAD ID" required>
+    </div>
+
+    <div id="clusterNameInput" class="form-section">
+      <label for="clusterNameInput">Cluster Name</label>
+      <input type="text" class="non-editable-input" name="clusterNameID" id="clusterName" placeholder="Auto-Generated" oninput="autoPopulateClusterName()" required>
+    </div>
+
+    <div id="agentTagsInput" class="form-section">
+      <label for="agentTagsInput">Sysdig Agent Version</label>
+      <select name="agentTagsID" id="agentTags" required>
+<!--         <option value="">Select Version</option> -->
+      </select>
+    </div>
+
+    <div id="runtimeScannerTagsInput" class="form-section">
+      <label for="runtimeScannerTagsInput">Sysdig Vuln Runtime Scanner Version</label>
+      <select name="runtimeScannerID" id="runtimeScannerTags" required>
+<!--         <option value="">Select Version</option> -->
+      </select>
+    </div>
+
+<!--     <div id="clusterTagsInput" class="form-section">
+      <label for="clusterTagsInput">Cluster Tags</label>
+      <input type="text" id="clusterTags" placeholder="Enter Cluster Tags" oninput="autoPopulateClusterTags()" required>
+    </div> -->
+
+    <div id="imageSizeInput" class="form-section">
+      <label for="imageSizeInput">
+        <div class="tooltip-container"><b>Find Largest Image Size Running In Your Cluster (Bytes)</b>
+            <i class="tooltip-icon fas fa-question-circle"></i>
+            <div class="tooltip-text">Run below command against cluster to find largest image size running in your cluster.</div>
+        </div>
+      </label>
+      <pre id="kubectlCommandText">
+kubectl get nodes -o json | jq -r '.items[].status.images[] | .sizeBytes' | sort -nr | head -1
+      </pre>
+      <input type="text" name="imageSizeID" id="imageSize" placeholder="ex: 3147483648" required>
+    </div>
+    
+    <div class="form-section">
+      <label>
+        <input type="checkbox" name="proxyCheckBoxID" id="proxyCheckbox"
+          onchange="toggleProxyInputs('proxyCheckbox', 'proxyInput')">
+        <div class="tooltip-container"><b>Is Proxy Required?</b>
+            <i class="tooltip-icon fas fa-question-circle"></i>
+            <div class="tooltip-text">Specify proxy information if direct access to public internet is not available.</div>
+        </div>
+      </label>
+      <div id="proxyInput" class="form-section"></div>
+    </div>
+
+    <div class="form-section">
+      <label>
+        <input type="checkbox" name="registryCheckboxID" id="registryCheckbox"
+          onchange="toggleRegistryInputs('registryCheckbox', 'registryInput')">
+        <div class="tooltip-container"><b>Is Internal Registry Required?</b>
+            <i class="tooltip-icon fas fa-question-circle"></i>
+            <div class="tooltip-text">Allows you to specify internal registry url. Image pullstrings are auto-generated based on registry url input and image versions selected.</div>
+        </div>
+      </label>
+      <div id="registryInput" class="form-section"></div>
+    </div>
+
+<!--     <div class="form-section">
+      <label>
+        <input type="checkbox" id="priorityCheckbox" onchange="toggleInput('priorityCheckbox', 'priorityInput')">
+        Priority Class Required
+      </label>
+      <div id="priorityInput" class="input-wrapper">
+        <input type="text" id="priorityDetails" placeholder="Enter Priority Class Details">
+      </div>
+    </div> -->
+
+    <div class="form-section">
+        <div class="tooltip-container"><b>Upload Existing Input Values File To Pre-populate Fields</b>
+          <i class="tooltip-icon fas fa-question-circle"></i>
+          <div class="tooltip-text">Only use this once you've generated install commands and download input values.</div>
+        </div>
+      <br><br>
+      <input type="file" id="fileInput" name="test" accept=".txt"><br>
+      <br>
+      <button onclick="refreshPage()()">Clear All Fields</button>
+    </div>
+    
+    <div class="form-section">
+      <button id="generateInstallCmdBtn" onclick="displayOutput()">Generate Install Commands</button>
+<!--       <button onclick="downloadConfigYAML()">Download Config YAML</button> -->
+      <button id="downloadOutputBtn" onclick="downloadOutputText()" style="display: none;">Download Copy of Install Commands</button>
+      <br>
+      <button id="downloadInputValuesBtn" onclick="downloadInputValues()" style="display: none;">Download Form Input Values</button>
+    </div>
+
+    <div id="output"></div>
+  </div>
+  
+  <script src="scripts/installation.js"></script>
+</body>
+
+</html>
