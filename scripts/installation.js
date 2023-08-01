@@ -605,7 +605,7 @@ function displayOutput() {
   // const namespaceInput = document.querySelector('#namespaceInput input');
   // const regionCheckbox = document.getElementById('regionCheckbox');
   const businessUnitInput = document.querySelector('#businessUnitInput input').value.toLowerCase();
-  const platformInput = document.querySelector('#platformInput input').value.toLowerCase();
+  const platformInput = document.getElementById('platformSelect').value.toLowerCase();
   // const environmentInput = document.querySelector('#environmentInput input');
   const environmentInput = document.getElementById('environmentSelect').value.toLowerCase();
   const vastInput = document.querySelector('#vastInput input').value.toLowerCase();
