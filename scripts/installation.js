@@ -389,36 +389,19 @@ function downloadInputValues() {
 }
 
 
-// function downloadOutputText() {
-//   const outputText = document.getElementById('output').textContent;
-
-//   const blob = new Blob([outputText], { type: 'text/plain' });
-//   const url = URL.createObjectURL(blob);
-
-//   const link = document.createElement('a');
-//   link.href = url;
-//   link.download = 'output.txt';
-//   link.click();
-
-//   URL.revokeObjectURL(url);
-// }
-
-function downloadOutputText(outputDiv, outputText) {
-  const outputText = document.getElementById('output').innerHTML; // Use innerHTML instead of textContent
+function downloadOutputText() {
+  const outputText = document.getElementById('output').innerHTML;
 
   const blob = new Blob([outputText], { type: 'text/html' });
-
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'output.html'; // Set the file extension to .html
+  link.download = 'output.html';
   link.click();
 
   URL.revokeObjectURL(url);
 }
-
-
 
 function handleRegionChange() {
   const regionSelect = document.getElementById('regionSelect');
