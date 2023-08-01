@@ -406,18 +406,18 @@ function downloadInputValues() {
 function downloadOutputText() {
   const outputText = document.getElementById('output').textContent;
 
-  // Assuming `outputText` is already in YAML format, convert it to a Blob with the appropriate content type
-  const blob = new Blob([outputText], { type: 'application/yaml' });
+  const blob = new Blob([outputText], { type: 'text/html' });
 
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'output.yaml'; // Change the file extension to .yaml
+  link.download = 'output.html'; // Set the file extension to .html
   link.click();
 
   URL.revokeObjectURL(url);
 }
+
 
 
 function handleRegionChange() {
