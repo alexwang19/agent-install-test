@@ -59,7 +59,7 @@ function downloadYamlFile(outputDiv, outputText) {
     // Convert the YAML data back to YAML content
     // const yamlContent = yaml.safeDump(importedYamlData);
 
-    console.log("Test");
+    // console.log("Test");
     
     // Create a Blob with the YAML content
     const blob = new Blob([importedYamlData], { type: 'text/yaml' });
@@ -403,19 +403,28 @@ function downloadInputValues() {
 //   URL.revokeObjectURL(url);
 // }
 
-function downloadOutputText() {
-  const outputText = document.getElementById('output').textContent;
-
+function downloadOutputText(outputDiv, outputText) {
   const blob = new Blob([outputText], { type: 'text/html' });
-
-  const url = URL.createObjectURL(blob);
-
+  outputDiv.innerHTML = outputText;
+  // Create a temporary <a> element to trigger the download
   const link = document.createElement('a');
-  link.href = url;
-  link.download = 'output.html'; // Set the file extension to .html
+  link.href = URL.createObjectURL(blob);
+  link.download = 'install_commands.html';
   link.click();
 
-  URL.revokeObjectURL(url);
+  
+  // const outputText = document.getElementById('output').textContent;
+
+  // const blob = new Blob([outputText], { type: 'text/html' });
+
+  // const url = URL.createObjectURL(blob);
+
+  // const link = document.createElement('a');
+  // link.href = url;
+  // link.download = 'output.html'; // Set the file extension to .html
+  // link.click();
+
+  // URL.revokeObjectURL(url);
 }
 
 
