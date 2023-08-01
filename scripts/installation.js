@@ -634,7 +634,7 @@ function displayOutput() {
   let clusterTagsText = '<pre>&nbsp;&nbsp; --set agent.sysdig.settings.tags="cluster:' + businessUnitInput + '-' + platformInput + '-' + environmentInput + '-' + vastInput + '-' + vsadInput + '\\,' + 'vz-vsadid:' + vsadInput + '\\,' + 'vz-vastid:' + vastInput +'" \\ <br></pre>';
   let outputText = helmQuickstartDocs + helmHeader + helmInitText + helmInstallText + clusterNameText + clusterTagsText;
 
-  if (environmentInput == "gke"){
+  if (environmentInput === "gke"){
     outputText += '&nbsp;&nbsp; --set agent.ebpf.enabled=true \\<br>';
   }
 
