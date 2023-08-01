@@ -389,19 +389,37 @@ function downloadInputValues() {
 }
 
 
+// function downloadOutputText() {
+//   const outputText = document.getElementById('output').textContent;
+
+//   const blob = new Blob([outputText], { type: 'text/plain' });
+//   const url = URL.createObjectURL(blob);
+
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.download = 'output.txt';
+//   link.click();
+
+//   URL.revokeObjectURL(url);
+// }
+
 function downloadOutputText() {
   const outputText = document.getElementById('output').textContent;
 
-  const blob = new Blob([outputText], { type: 'text/plain' });
+  // Assuming `outputText` is already in YAML format, convert it to a Blob with the appropriate content type
+  const blob = new Blob([outputText], { type: 'application/yaml' });
+
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'output.txt';
+  link.download = 'output.yaml'; // Change the file extension to .yaml
   link.click();
 
   URL.revokeObjectURL(url);
 }
+
+
 function handleRegionChange() {
   const regionSelect = document.getElementById('regionSelect');
   const testInput = document.getElementById('testInput');
