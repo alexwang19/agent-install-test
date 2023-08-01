@@ -404,27 +404,18 @@ function downloadInputValues() {
 // }
 
 function downloadOutputText(outputDiv, outputText) {
+  const outputText = document.getElementById('output').innerHTML; // Use innerHTML instead of textContent
+
   const blob = new Blob([outputText], { type: 'text/html' });
-  outputDiv.innerHTML = outputText;
-  // Create a temporary <a> element to trigger the download
+
+  const url = URL.createObjectURL(blob);
+
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'install_commands.html';
+  link.href = url;
+  link.download = 'output.html'; // Set the file extension to .html
   link.click();
 
-  
-  // const outputText = document.getElementById('output').textContent;
-
-  // const blob = new Blob([outputText], { type: 'text/html' });
-
-  // const url = URL.createObjectURL(blob);
-
-  // const link = document.createElement('a');
-  // link.href = url;
-  // link.download = 'output.html'; // Set the file extension to .html
-  // link.click();
-
-  // URL.revokeObjectURL(url);
+  URL.revokeObjectURL(url);
 }
 
 
