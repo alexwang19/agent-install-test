@@ -221,13 +221,13 @@ function autoPopulateClusterName() {
   const clusterName = nameParts.join('-');
   clusterNameInput.value = clusterName;
 }
-window.addEventListener('DOMContentLoaded', autoPopulateClusterName);
 
-// // Add input event listeners to related input fields
-// const inputFields = document.querySelectorAll('#businessUnit, #environment, #platform, #vsad, #vast');
-// inputFields.forEach(function (inputField) {
-//   inputField.addEventListener('input', autoPopulateClusterName);
-// });
+
+// Add input event listeners to related input fields
+const inputFields = document.querySelectorAll('#businessUnit, #environment, #platform, #vsad, #vast');
+inputFields.forEach(function (inputField) {
+  inputField.addEventListener('input', autoPopulateClusterName);
+});
 
 
 function refreshPage() {
@@ -634,6 +634,9 @@ function displayOutput() {
   let clusterTagsText = '<pre>&nbsp;&nbsp; --set agent.sysdig.settings.tags="cluster:' + businessUnitInput + '-' + platformInput + '-' + environmentInput + '-' + vastInput + '-' + vsadInput + '\\,' + 'vz-vsadid:' + vsadInput + '\\,' + 'vz-vastid:' + vastInput +'" \\ <br></pre>';
   let outputText = helmQuickstartDocs + helmHeader + helmInitText + helmInstallText + clusterNameText + clusterTagsText;
 
+  if (environmentInput == "gke"){
+    outputText += '&nbsp;&nbsp; --set agent.ebpf.enabled=true \\<br>';
+  }
 
   if (imageSizeInput.value > 2147483648) {
     let ephemeralStorageRequestBytes = 1.5 * imageSizeInput.value;
