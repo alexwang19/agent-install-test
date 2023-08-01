@@ -221,12 +221,13 @@ function autoPopulateClusterName() {
   const clusterName = nameParts.join('-');
   clusterNameInput.value = clusterName;
 }
+window.addEventListener('DOMContentLoaded', autoPopulateClusterName);
 
-// Add input event listeners to related input fields
-const inputFields = document.querySelectorAll('#businessUnit, #environment, #platform, #vsad, #vast');
-inputFields.forEach(function (inputField) {
-  inputField.addEventListener('input', autoPopulateClusterName);
-});
+// // Add input event listeners to related input fields
+// const inputFields = document.querySelectorAll('#businessUnit, #environment, #platform, #vsad, #vast');
+// inputFields.forEach(function (inputField) {
+//   inputField.addEventListener('input', autoPopulateClusterName);
+// });
 
 
 function refreshPage() {
