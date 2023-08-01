@@ -635,7 +635,7 @@ function displayOutput() {
   let outputText = helmQuickstartDocs + helmHeader + helmInitText + helmInstallText + clusterNameText + clusterTagsText;
 
   if (platformInput === "gke"){
-    outputText += '&nbsp;&nbsp; --set agent.ebpf.enabled=true \\<br>';
+    outputText += '<pre>&nbsp;&nbsp; --set agent.ebpf.enabled=true \\<br></pre>';
   }
 
   if (imageSizeInput.value > 2147483648) {
